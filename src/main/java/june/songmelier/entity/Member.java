@@ -26,11 +26,16 @@ public class Member extends TimeStamped {
 
 
 //--------------------------------------------------- 생성자 ----------------------------------------------------------//
-    public Member(String email, String password, String username, String imageUrl, String introduce) {
+    private Member(String email, String password, String username, String imageUrl, String introduce) {
         this.email = email;
         this.password = password;
         this.username = username;
         this.imageUrl = imageUrl;
         this.introduce = introduce;
+    }
+    
+    public static Member createMember(String email, String password, String username, String imageUrl, String introduce) {
+        Member member = new Member(email, password, username, imageUrl, introduce);
+        return member;
     }
 }
