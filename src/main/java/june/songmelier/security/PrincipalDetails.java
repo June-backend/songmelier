@@ -14,14 +14,29 @@ import java.util.Map;
 @Getter
 public class PrincipalDetails implements UserDetails, OAuth2User {
     private MemberDto.Principal principal;
+    private boolean isFirstLogin = false;
+    private String imageUrl;
 
     public PrincipalDetails(Long id, String username) {
         this.principal = new MemberDto.Principal(id, username);
     }
 
+    public PrincipalDetails(Long id, String username, boolean isFirstLogin, String imageUrl) {
+        this.principal = new MemberDto.Principal(id, username);
+        this.isFirstLogin = isFirstLogin;
+        this.imageUrl = imageUrl;
+    }
 
     public Long getMemberId() {
         return this.principal.getMemberId();
+    }
+
+    public void firstLogin() {
+        this.isFirstLogin = true;
+    }
+
+    public boolean isFirstLogin() {
+        return isFirstLogin;
     }
 
     @Override

@@ -3,6 +3,8 @@ package june.songmelier.security.config;
 import june.songmelier.security.filter.CustomAuthenticationEntryPoint;
 import june.songmelier.security.filter.JwtAuthorizationFilter;
 import june.songmelier.security.filter.PrincipalDetailsService;
+import june.songmelier.security.oauth.OauthSuccessHandler;
+import june.songmelier.security.oauth.PrincipalOauth2UserService;
 import june.songmelier.utils.JwtTokenUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Configurable;
@@ -30,6 +32,8 @@ public class WebSecureConfig {
     private final CustomAuthenticationEntryPoint authenticationEntryPoint;
     private final JwtTokenUtils jwtTokenUtils;
     private final PrincipalDetailsService principalDetailsService;
+    private final PrincipalOauth2UserService principalOauth2UserService;
+    private final OauthSuccessHandler oauthSuccessHandler;
 
 //    web으로 안막으면 인증이 필요없는 부분도 필터를 탐 (forbidden으로 막히지는 않음) ---> 해당 Config에 구현 안되어 있음 | 필요하다면 구현 필요
 //    public void configure(WebSecurity web) throws Exception {
@@ -67,7 +71,14 @@ public class WebSecureConfig {
                 .and()
                 .addFilter(new JwtAuthorizationFilter(authenticationManager, authenticationEntryPoint, jwtTokenUtils))
                 .authenticationManager(authenticationManager)
-                .cors().configurationSource(corsConfigurationSource());
+                .cors().configurationSource(corsConfigurationSource())
+
+                .and()
+                .oauth2Login()				// OAuth2기반의 로그인인 경우
+                .successHandler(oauthSuccessHandler)
+                .failureUrl("/loginForm")		// 로그인 실패 시 /loginForm으로 이동
+                .userInfoEndpoint()			// 로그인 성공 후 사용자정보를 가져온다
+                .userService(principalOauth2UserService);	//사용자정보를 처리할 때 사용한다
 
         return http.build();
     }
