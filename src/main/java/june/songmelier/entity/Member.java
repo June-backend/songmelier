@@ -5,10 +5,9 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -24,8 +23,23 @@ public class Member extends TimeStamped {
     private String imageUrl;
     private String introduce;
 
+    @OneToMany(mappedBy = "member")
+    private List<Favor> favorList = new ArrayList<>();
 
-//--------------------------------------------------- 생성자 ----------------------------------------------------------//
+    @OneToMany(mappedBy = "member")
+    private List<Bookmark> bookmarkList = new ArrayList<>();
+
+    @OneToMany(mappedBy = "member")
+    private List<Evaluation> evaluationList = new ArrayList<>();
+
+    @OneToMany(mappedBy = "member")
+    private List<Comment> commentList = new ArrayList<>();
+
+    @OneToMany(mappedBy = "member")
+    private List<CommentStatus> commentStatusList = new ArrayList<>();
+
+
+    //--------------------------------------------------- 생성자 ----------------------------------------------------------//
     private Member(String email, String password, String username, String imageUrl, String introduce) {
         this.email = email;
         this.password = password;
@@ -33,7 +47,10 @@ public class Member extends TimeStamped {
         this.imageUrl = imageUrl;
         this.introduce = introduce;
     }
-    
+
+    //--------------------------------------------------- 생성 편의자 ----------------------------------------------------------//
+
+
     public static Member createMember(String email, String password, String username, String imageUrl, String introduce) {
         Member member = new Member(email, password, username, imageUrl, introduce);
         return member;
