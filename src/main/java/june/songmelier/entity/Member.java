@@ -55,4 +55,12 @@ public class Member extends TimeStamped {
         Member member = new Member(email, password, username, imageUrl, introduce);
         return member;
     }
+
+    //--------------------------------------------------- 비즈니스 로직 ----------------------------------------------------------//
+
+    public void putMember(String username, String imageUrl, String introduce) {
+        this.username = username;
+        this.imageUrl = imageUrl;
+        this.introduce = introduce;
+    }
 }
