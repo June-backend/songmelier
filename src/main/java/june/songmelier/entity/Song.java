@@ -78,6 +78,10 @@ public class Song extends TimeStamped {
         this.commentCount += 1;
     }
 
+    public void commentCountDown() {
+        this.commentCount -= 1;
+    }
+
     public void newEvaluation(Long highDifficult, Long lowDifficult, Long rapDifficult, Long mood) {
         String[] highDifficultList = this.highDifficult.split(" ");
         highDifficultList[highDifficult.intValue() - 1] =
@@ -99,4 +103,6 @@ public class Song extends TimeStamped {
                 String.valueOf(Integer.parseInt(moodList[mood.intValue() - 1]) + 1);
         this.mood = String.join(" ", moodList);
     }
+
+
 }

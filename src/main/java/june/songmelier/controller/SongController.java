@@ -1,14 +1,12 @@
 package june.songmelier.controller;
 
 
+import june.songmelier.dto.CommentDto;
 import june.songmelier.security.PrincipalDetails;
 import june.songmelier.service.SongService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
@@ -50,9 +48,7 @@ public class SongController {
     @PostMapping("/api/song/{songId}/singlist/delete")
     public void deleteSingList(@PathVariable("songId") Long songId, @AuthenticationPrincipal PrincipalDetails principal) {
         songService.deleteBookmark(songId, principal.getMemberId());
-
     }
-
 
 
 

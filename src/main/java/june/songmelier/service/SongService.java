@@ -1,13 +1,7 @@
 package june.songmelier.service;
 
-import june.songmelier.entity.Bookmark;
-import june.songmelier.entity.Favor;
-import june.songmelier.entity.Member;
-import june.songmelier.entity.Song;
-import june.songmelier.repository.BookmarkRepository;
-import june.songmelier.repository.FavorRepository;
-import june.songmelier.repository.MemberRepository;
-import june.songmelier.repository.SongRepository;
+import june.songmelier.entity.*;
+import june.songmelier.repository.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -79,4 +73,5 @@ public class SongService {
 
         song.bookmarkCountDown();
     }
+
 }
