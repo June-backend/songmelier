@@ -48,12 +48,20 @@ public class Member extends TimeStamped {
         this.introduce = introduce;
     }
 
+    private Member(Long memberId) {
+        this.id = memberId;
+    }
+
     //--------------------------------------------------- 생성 편의자 ----------------------------------------------------------//
 
 
     public static Member createMember(String email, String password, String username, String imageUrl, String introduce) {
         Member member = new Member(email, password, username, imageUrl, introduce);
         return member;
+    }
+
+    public static Member createIdMember(Long memberId) {
+        return new Member(memberId);
     }
 
     //--------------------------------------------------- 비즈니스 로직 ----------------------------------------------------------//

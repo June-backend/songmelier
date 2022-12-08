@@ -6,15 +6,12 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Optional;
-
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
 public class SongService {
 
     private final SongRepository songRepository;
-    private final MemberRepository memberRepository;
     private final FavorRepository favorRepository;
     private final BookmarkRepository bookmarkRepository;
 
@@ -23,13 +20,10 @@ public class SongService {
         Song song = songRepository.findById(songId)
                 .orElseThrow(() -> new IllegalArgumentException("해당하는 노래가 존재하지 않습니다."));
 
-        Member member = memberRepository.findById(memberId)
-                .orElseThrow(() -> new IllegalArgumentException("해당하는 멈버가 존재하지 않습니다."));
-
         favorRepository.findBySongIdAndMemberId(songId, memberId)
                 .ifPresent((x) -> {throw new IllegalArgumentException("이미 좋아요를 누른 곡입니다.");});
 
-        Favor favor = Favor.createFavor(member, song);
+        Favor favor = Favor.createFavor(Member.createIdMember(memberId), song);
         favorRepository.save(favor);
     }
 
@@ -51,13 +45,10 @@ public class SongService {
         Song song = songRepository.findById(songId)
                 .orElseThrow(() -> new IllegalArgumentException("해당하는 노래가 존재하지 않습니다."));
 
-        Member member = memberRepository.findById(memberId)
-                .orElseThrow(() -> new IllegalArgumentException("해당하는 멈버가 존재하지 않습니다."));
-
         bookmarkRepository.findBySongIdAndMemberId(songId, memberId)
                 .ifPresent((x) -> {throw new IllegalArgumentException("이미 싱리스트에 해당하는 곡입니다.");});
 
-        Bookmark bookmark = Bookmark.createBookmark(member, song);
+        Bookmark bookmark = Bookmark.createBookmark(Member.createIdMember(memberId), song);
         bookmarkRepository.save(bookmark);
     }
 

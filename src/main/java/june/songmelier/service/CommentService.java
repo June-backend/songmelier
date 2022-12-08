@@ -20,7 +20,6 @@ import java.util.Optional;
 public class CommentService {
 
     private final SongRepository songRepository;
-    private final MemberRepository memberRepository;
     private final CommentRepository commentRepository;
     private final CommentStatusRepository commentStatusRepository;
 
@@ -29,10 +28,7 @@ public class CommentService {
         Song song = songRepository.findById(songId)
                 .orElseThrow(() -> new IllegalArgumentException("해당하는 노래가 존재하지 않습니다."));
 
-        Member member = memberRepository.findById(memberId)
-                .orElseThrow(() -> new IllegalArgumentException("해당하는 멈버가 존재하지 않습니다."));
-
-        Comment comment = Comment.createComment(text, member, song);
+        Comment comment = Comment.createComment(text, Member.createIdMember(memberId), song);
 
         commentRepository.save(comment);
     }
@@ -57,9 +53,6 @@ public class CommentService {
         Optional<CommentStatus> commentStatus = commentStatusRepository.findByCommentId(commentId)
                 .filter((status) -> status.getMember().getId().equals(memberId));
 
-        Member member = memberRepository.findById(memberId).
-                orElseThrow(() -> new IllegalArgumentException("존재하지 않는 회원입니다."));
-
         Comment comment = commentRepository.findById(commentId).
                 orElseThrow(() -> new IllegalArgumentException("존재하지 않는 코멘트입니다.."));
 
@@ -71,7 +64,8 @@ public class CommentService {
                 (status) -> commentStatusRepository.delete(status)
         );
 
-        CommentStatus newCommentStatus = CommentStatus.createCommentStatus(isLike, member, comment);
+        CommentStatus newCommentStatus =
+                CommentStatus.createCommentStatus(isLike, Member.createIdMember(memberId), comment);
         commentStatusRepository.save(newCommentStatus);
 
     }
