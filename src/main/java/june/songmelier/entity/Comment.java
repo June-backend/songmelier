@@ -62,4 +62,12 @@ public class Comment extends TimeStamped {
     public void hateCountUp() {
         this.hateCount += 1;
     }
+
+    public void likeCountDown() {
+        this.likeCount -= 1;
+    }
+
+    public void hateCountDown() {
+        this.hateCount -= 1;
+    }
 }
