@@ -61,7 +61,12 @@ public class CommentService {
         );
 
         commentStatus.ifPresent(
-                (status) -> commentStatusRepository.delete(status)
+                (status) -> {
+                    if (status.isLike()) comment.likeCountDown();
+                    else comment.hateCountDown();
+
+                    commentStatusRepository.delete(status);
+                }
         );
 
         CommentStatus newCommentStatus =
@@ -75,6 +80,10 @@ public class CommentService {
         CommentStatus commentStatus = commentStatusRepository.findByCommentId(commentId)
                 .filter((status) -> status.getMember().getId().equals(memberId))
                 .orElseThrow(() -> new IllegalArgumentException("없거나 자신의 것이 아닙니다."));
+
+        Comment comment = commentStatus.getComment();
+        if (commentStatus.isLike()) comment.likeCountDown();
+        else comment.hateCountDown();
 
         commentStatusRepository.delete(commentStatus);
     }
