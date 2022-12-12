@@ -16,10 +16,10 @@ public class Evaluation extends TimeStamped {
     @Column(name = "evaluation_id")
     private Long id;
 
-    private Long highDifficult;
-    private Long lowDifficult;
-    private Long rapDifficult;
-    private Long mood;
+    private Integer highDifficult;
+    private Integer lowDifficult;
+    private Integer rapDifficult;
+    private Integer mood;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
@@ -29,12 +29,12 @@ public class Evaluation extends TimeStamped {
     @JoinColumn(name = "song_id")
     private Song song;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.LAZY, orphanRemoval = true)
     @JoinColumn(name = "comment_id")
     private Comment comment;
 
 //--------------------------------------------------- 생성자 ----------------------------------------------------------//
-    private Evaluation(Long highDifficult, Long lowDifficult, Long rapDifficult, Long mood, Member member, Song song) {
+    private Evaluation(Integer highDifficult, Integer lowDifficult, Integer rapDifficult, Integer mood, Member member, Song song) {
         this.highDifficult = highDifficult;
         this.lowDifficult = lowDifficult;
         this.rapDifficult = rapDifficult;
@@ -44,7 +44,7 @@ public class Evaluation extends TimeStamped {
     }
 
     //--------------------------------------------------- 생성 편의자 ----------------------------------------------------------//
-    public static Evaluation createEvaluation(Long highDifficult, Long lowDifficult, Long rapDifficult, Long mood, Member member, Song song) {
+    public static Evaluation createEvaluation(Integer highDifficult, Integer lowDifficult, Integer rapDifficult, Integer mood, Member member, Song song) {
         Evaluation evaluation = new Evaluation(highDifficult, lowDifficult, rapDifficult, mood, member, song);
 
         song.newEvaluation(highDifficult, lowDifficult, rapDifficult, mood);

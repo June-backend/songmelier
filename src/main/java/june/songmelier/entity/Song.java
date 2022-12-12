@@ -82,27 +82,47 @@ public class Song extends TimeStamped {
         this.commentCount -= 1;
     }
 
-    public void newEvaluation(Long highDifficult, Long lowDifficult, Long rapDifficult, Long mood) {
+    public void newEvaluation(Integer highDifficult, Integer lowDifficult, Integer rapDifficult, Integer mood) {
         String[] highDifficultList = this.highDifficult.split(" ");
-        highDifficultList[highDifficult.intValue() - 1] =
-                String.valueOf(Integer.parseInt(highDifficultList[highDifficult.intValue() - 1]) + 1);
+        highDifficultList[highDifficult - 1] =
+                String.valueOf(Integer.parseInt(highDifficultList[highDifficult - 1]) + 1);
         this.highDifficult = String.join(" ", highDifficultList);
 
         String[] lowDifficultList = this.lowDifficult.split(" ");
-        lowDifficultList[lowDifficult.intValue() - 1] =
-                String.valueOf(Integer.parseInt(lowDifficultList[lowDifficult.intValue() - 1]) + 1);
+        lowDifficultList[lowDifficult - 1] =
+                String.valueOf(Integer.parseInt(lowDifficultList[lowDifficult - 1]) + 1);
         this.lowDifficult = String.join(" ", lowDifficultList);
 
         String[] rapDifficultList = this.rapDifficult.split(" ");
-        rapDifficultList[rapDifficult.intValue() - 1] =
-                String.valueOf(Integer.parseInt(rapDifficultList[rapDifficult.intValue() - 1]) + 1);
+        rapDifficultList[rapDifficult - 1] =
+                String.valueOf(Integer.parseInt(rapDifficultList[rapDifficult - 1]) + 1);
         this.rapDifficult = String.join(" ", rapDifficultList);
 
         String[] moodList = this.mood.split(" ");
-        moodList[mood.intValue() - 1] =
-                String.valueOf(Integer.parseInt(moodList[mood.intValue() - 1]) + 1);
+        moodList[mood - 1] =
+                String.valueOf(Integer.parseInt(moodList[mood - 1]) + 1);
         this.mood = String.join(" ", moodList);
     }
 
+    public void deleteEvaluation(Integer highDifficult, Integer lowDifficult, Integer rapDifficult, Integer mood) {
+        String[] highDifficultList = this.highDifficult.split(" ");
+        highDifficultList[highDifficult - 1] =
+                String.valueOf(Integer.parseInt(highDifficultList[highDifficult - 1]) - 1);
+        this.highDifficult = String.join(" ", highDifficultList);
 
+        String[] lowDifficultList = this.lowDifficult.split(" ");
+        lowDifficultList[lowDifficult - 1] =
+                String.valueOf(Integer.parseInt(lowDifficultList[lowDifficult - 1]) - 1);
+        this.lowDifficult = String.join(" ", lowDifficultList);
+
+        String[] rapDifficultList = this.rapDifficult.split(" ");
+        rapDifficultList[rapDifficult - 1] =
+                String.valueOf(Integer.parseInt(rapDifficultList[rapDifficult - 1]) - 1);
+        this.rapDifficult = String.join(" ", rapDifficultList);
+
+        String[] moodList = this.mood.split(" ");
+        moodList[mood - 1] =
+                String.valueOf(Integer.parseInt(moodList[mood - 1]) - 1);
+        this.mood = String.join(" ", moodList);
+    }
 }
