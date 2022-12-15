@@ -1,10 +1,13 @@
 package june.songmelier.service;
 
+import june.songmelier.dto.SongDto;
 import june.songmelier.entity.*;
 import june.songmelier.repository.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -65,4 +68,17 @@ public class SongService {
         song.bookmarkCountDown();
     }
 
+
+    public SongDto.SongRes getSongDetail(Long songId, Long memberId) {
+        Song song = songRepository.findById(songId)
+                .orElseThrow(() -> new IllegalArgumentException("해당하는 노래가 존재하지 않습니다."));
+
+        Optional<Favor> favor = favorRepository.findBySongIdAndMemberId(songId,memberId);
+        Optional<Bookmark> bookmark = bookmarkRepository.findBySongIdAndMemberId(songId,memberId);
+
+        return new SongDto.SongRes(song,favor.isPresent(),bookmark.isPresent());
+
+
+
+    }
 }

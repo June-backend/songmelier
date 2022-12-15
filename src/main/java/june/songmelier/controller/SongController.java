@@ -2,6 +2,7 @@ package june.songmelier.controller;
 
 
 import june.songmelier.dto.CommentDto;
+import june.songmelier.dto.SongDto;
 import june.songmelier.security.PrincipalDetails;
 import june.songmelier.service.SongService;
 import lombok.RequiredArgsConstructor;
@@ -50,6 +51,14 @@ public class SongController {
         songService.deleteBookmark(songId, principal.getMemberId());
     }
 
+
+    /**
+     * 노래 상세 정보 갖고오기
+     */
+    @GetMapping("/api/song/{songId}/songdetail")
+    public SongDto.SongRes getSongDetail(@PathVariable("songId") Long songId, @AuthenticationPrincipal PrincipalDetails principal) {
+        return songService.getSongDetail(songId, principal.getMemberId());
+    }
 
 
 }
