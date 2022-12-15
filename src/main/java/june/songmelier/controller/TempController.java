@@ -37,14 +37,4 @@ public class TempController {
 
         return principalDetails.getUsername() + "  " + principalDetails.getMemberId();
     }
-
-    @PostConstruct
-    public void tempSongList() {
-        Song song = Song.createSong("사건의 지평선", "윤하", "image1", "123456");
-        Song song1 = Song.createSong("ANTIFRAGILE", "르세라핌", "image1", "123456");
-        Song song2 = Song.createSong("Hype boy", "NewJeans", "image1", "123456");
-        Song song3 = Song.createSong("마이웨이 (MY WAY) (Prod. R.Tee)", "저스디스", "image1", "123456");
-        Song song4 = Song.createSong("Nxde", "(여자)아이들", "image1", "123456");
-        songRepository.saveAll(Arrays.asList(song, song1, song2, song3, song4));
-    }
 }
