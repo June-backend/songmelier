@@ -6,7 +6,6 @@ import june.songmelier.entity.Member;
 import june.songmelier.entity.Song;
 import june.songmelier.repository.CommentRepository;
 import june.songmelier.repository.CommentStatusRepository;
-import june.songmelier.repository.MemberRepository;
 import june.songmelier.repository.SongRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
