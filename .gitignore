@@ -39,4 +39,4 @@ out/
 ### Properties ###
 *.yml
 
-.DS_Store
+**/.DS_Store
