@@ -4,6 +4,8 @@ import june.songmelier.dto.SongDto;
 import june.songmelier.entity.*;
 import june.songmelier.repository.*;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -80,5 +82,11 @@ public class SongService {
 
 
 
+    }
+
+    public Slice<SongDto.BookmarkRes> getBookmark(Long memberId, Pageable pageable) {
+        Slice<Bookmark> bookmarks = bookmarkRepository.findByMemberId(memberId, pageable);
+
+        return bookmarks.map((bookmark -> new SongDto.BookmarkRes(bookmark)));
     }
 }

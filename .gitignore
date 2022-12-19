@@ -38,5 +38,7 @@ out/
 
 ### Properties ###
 *.yml
+*.csv
+tj_data.csv
 
 **/.DS_Store
