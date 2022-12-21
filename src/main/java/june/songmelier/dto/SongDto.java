@@ -2,6 +2,7 @@ package june.songmelier.dto;
 
 
 import june.songmelier.entity.Bookmark;
+import june.songmelier.entity.Favor;
 import june.songmelier.entity.Song;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -50,6 +51,30 @@ public class SongDto {
     @NoArgsConstructor
     public static class BookmarkRes {
         private Long bookmarkId;
+        private SimpleSong song;
+
+
+        public BookmarkRes(Bookmark bookmark) {
+            this.bookmarkId = bookmark.getId();
+            this.song = new SimpleSong(bookmark.getSong());
+        }
+    }
+
+
+
+    @Getter
+    public static class FavorRes {
+        private Long favor_id;
+        private SimpleSong song;
+
+        public FavorRes(Favor favor) {
+            this.favor_id = favor.getId();
+            this.song = new SimpleSong(favor.getSong());
+        }
+    }
+
+    @Getter
+    private static class SimpleSong {
         private Long songId;
         private String title;
         private String singer;
@@ -59,16 +84,16 @@ public class SongDto {
         private String lowDifficult;
         private String mood;
 
-        public BookmarkRes(Bookmark bookmark) {
-            this.bookmarkId = bookmark.getId();
-            this.songId = bookmark.getSong().getId();
-            this.title = bookmark.getSong().getTitle();
-            this.singer = bookmark.getSong().getSinger();
-            this.imageUrl = bookmark.getSong().getImageUrl();
-            this.rapDifficult = bookmark.getSong().getRapDifficult();
-            this.highDifficult = bookmark.getSong().getHighDifficult();
-            this.lowDifficult = bookmark.getSong().getLowDifficult();
-            this.mood = bookmark.getSong().getMood();
+        public SimpleSong(Song song) {
+            this.songId = song.getId();
+            this.title = song.getTitle();
+            this.singer = song.getSinger();
+            this.imageUrl = song.getImageUrl();
+            this.rapDifficult = song.getRapDifficult();
+            this.highDifficult = song.getHighDifficult();
+            this.lowDifficult = song.getLowDifficult();
+            this.mood = song.getMood();
         }
     }
+
 }

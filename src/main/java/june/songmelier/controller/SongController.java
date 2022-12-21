@@ -38,6 +38,16 @@ public class SongController {
     }
 
     /**
+     * 나의 선호 노래 확인
+     */
+    @GetMapping("/api/member/favor")
+    public Slice<SongDto.FavorRes> getFavorList(
+            @AuthenticationPrincipal PrincipalDetails principal,
+            @PageableDefault(sort = "id", direction = Sort.Direction.DESC) Pageable pageable) {
+        return songService.getFavor(principal.getMemberId(), pageable);
+    }
+
+    /**
      * 싱리스트 추가
      */
     @PostMapping("/api/song/{songId}/singlist")

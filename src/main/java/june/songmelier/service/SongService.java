@@ -85,8 +85,14 @@ public class SongService {
     }
 
     public Slice<SongDto.BookmarkRes> getBookmark(Long memberId, Pageable pageable) {
-        Slice<Bookmark> bookmarks = bookmarkRepository.findByMemberId(memberId, pageable);
+        Slice<Bookmark> bookmarks = bookmarkRepository.findByMemberIdWithSong(memberId, pageable);
 
         return bookmarks.map((bookmark -> new SongDto.BookmarkRes(bookmark)));
+    }
+
+    public Slice<SongDto.FavorRes> getFavor(Long memberId, Pageable pageable) {
+        Slice<Favor> favors = favorRepository.findByMemberIdWithSong(memberId, pageable);
+
+        return favors.map(favor -> new SongDto.FavorRes(favor));
     }
 }

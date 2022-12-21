@@ -13,5 +13,5 @@ public interface BookmarkRepository extends JpaRepository<Bookmark, Long> {
     Optional<Bookmark> findBySongIdAndMemberId(Long songId, Long memberId);
 
     @Query("select bm from Bookmark bm join fetch bm.song where bm.member.id = :memberId")
-    Slice<Bookmark> findByMemberId(@Param("memberId") Long memberId, Pageable pageable);
+    Slice<Bookmark> findByMemberIdWithSong(@Param("memberId") Long memberId, Pageable pageable);
 }
