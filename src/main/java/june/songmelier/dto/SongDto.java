@@ -26,6 +26,7 @@ public class SongDto {
         private Long commentCount;
         private String rapDifficult;
         private String highDifficult;
+        private String lowDifficult;
         private String mood;
         private boolean isMySinglist;
         private boolean isFavor;
@@ -40,6 +41,7 @@ public class SongDto {
             this.favorCount = song.getFavorCount();
             this.scrapCount = song.getBookmarkCount();
             this.commentCount = song.getCommentCount();
+            this.lowDifficult = song.getLowDifficult();
             this.rapDifficult = song.getRapDifficult();
             this.highDifficult = song.getHighDifficult();
             this.mood = song.getMood();
@@ -47,5 +49,15 @@ public class SongDto {
             this.isFavor = isFavor;
 
         }
+    }
+
+    @Getter
+    @AllArgsConstructor
+    @NoArgsConstructor
+    static public class SongEvaluationRes{
+        private Long songId;
+        private String title;
+        private String singer;
+        private String imageUrl;
     }
 }
