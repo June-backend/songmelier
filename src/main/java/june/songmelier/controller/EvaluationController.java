@@ -4,6 +4,10 @@ import june.songmelier.dto.EvaluationDto;
 import june.songmelier.security.PrincipalDetails;
 import june.songmelier.service.EvaluationService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
@@ -39,9 +43,18 @@ public class EvaluationController {
     /**
      * 내가 평가한 노래들 보기
      */
+    //page 전
+//    @GetMapping("/api/member/evaluation")
+//    public List<EvaluationDto.MyEvaluationsRes> GetMyEvaluations(@AuthenticationPrincipal PrincipalDetails principalDetails) {
+//        return evaluationService.getMyEvaluations(principalDetails.getMemberId());
+//    }
+
+    //page후
     @GetMapping("/api/member/evaluation")
-    public List<EvaluationDto.MyEvaluationsRes> GetMyEvaluations(@AuthenticationPrincipal PrincipalDetails principalDetails) {
-        return evaluationService.getMyEvaluations(principalDetails.getMemberId());
+    public Slice<EvaluationDto.MyEvaluationsRes> GetMyEvaluations(
+            @AuthenticationPrincipal PrincipalDetails principalDetails,
+            @PageableDefault(sort = "id", direction = Sort.Direction.DESC) Pageable pageable) {
+        return evaluationService.getMyEvaluations1(principalDetails.getMemberId(),pageable);
     }
 
 }
