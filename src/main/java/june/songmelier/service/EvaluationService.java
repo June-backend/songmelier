@@ -83,8 +83,6 @@ public class EvaluationService {
     @Transactional
     public Slice<EvaluationDto.MyEvaluationsRes> getMyEvaluations1(Long memberId, Pageable pageable) {
         Slice<Evaluation> evaluations = evaluationRepository.findByMemberId(memberId,pageable);
-        //결과 [ song + evalutaion ]
-        List<EvaluationDto.MyEvaluationsRes> result = new ArrayList<EvaluationDto.MyEvaluationsRes>();
 
         //slice 결과를 slice에 채워넣기
         Slice<EvaluationDto.MyEvaluationsRes> dtoSlice = evaluations.map(e -> new EvaluationDto.MyEvaluationsRes(new EvaluationDto.EvaluationRes(e.getId(),e.getHighDifficult(),e.getLowDifficult(),e.getRapDifficult(),e.getMood()),

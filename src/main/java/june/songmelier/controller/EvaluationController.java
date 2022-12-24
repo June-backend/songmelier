@@ -43,13 +43,13 @@ public class EvaluationController {
     /**
      * 내가 평가한 노래들 보기
      */
-    //page 전
+    //slice 전
 //    @GetMapping("/api/member/evaluation")
 //    public List<EvaluationDto.MyEvaluationsRes> GetMyEvaluations(@AuthenticationPrincipal PrincipalDetails principalDetails) {
 //        return evaluationService.getMyEvaluations(principalDetails.getMemberId());
 //    }
 
-    //page후
+    //slice
     @GetMapping("/api/member/evaluation")
     public Slice<EvaluationDto.MyEvaluationsRes> GetMyEvaluations(
             @AuthenticationPrincipal PrincipalDetails principalDetails,
