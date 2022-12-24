@@ -1,17 +1,24 @@
 package june.songmelier.service;
 
-import june.songmelier.entity.Comment;
-import june.songmelier.entity.CommentStatus;
-import june.songmelier.entity.Member;
-import june.songmelier.entity.Song;
+import june.songmelier.dto.CommentDto;
+import june.songmelier.dto.MemberDto;
+import june.songmelier.entity.*;
 import june.songmelier.repository.CommentRepository;
 import june.songmelier.repository.CommentStatusRepository;
+import june.songmelier.repository.FavorRepository;
 import june.songmelier.repository.SongRepository;
+import june.songmelier.security.PrincipalDetails;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional(readOnly = true)
@@ -21,6 +28,7 @@ public class CommentService {
     private final SongRepository songRepository;
     private final CommentRepository commentRepository;
     private final CommentStatusRepository commentStatusRepository;
+
 
     @Transactional
     public void createComment(Long songId, Long memberId, String text) {
@@ -86,4 +94,21 @@ public class CommentService {
 
         commentStatusRepository.delete(commentStatus);
     }
+
+
+    //모든 코맨트 가져오기
+    @Transactional
+    public List<CommentDto.CommentRes> getSongComments(Long songId, Long memberId) {
+
+        List<Comment> comments = commentRepository.findBySongIdAndMember(songId);
+        List<CommentDto.CommentRes> result = new ArrayList<CommentDto.CommentRes>();
+
+        for(Comment comment : comments){
+            Optional<CommentStatus> commentStatus = commentStatusRepository.findByCommentId(comment.getId());
+            MemberDto.MemberRes member = new MemberDto.MemberRes(comment.getMember().getId(),comment.getMember().getUsername(),comment.getMember().getImageUrl());
+            result.add(new CommentDto.CommentRes(comment.getId(), comment.getText(),comment.getLikeCount(),comment.getCreatedAt(),commentStatus.isPresent(),member));
+        }
+        return result;
+    }
+
 }

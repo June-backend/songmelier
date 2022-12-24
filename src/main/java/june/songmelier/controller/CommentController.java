@@ -2,15 +2,14 @@ package june.songmelier.controller;
 
 
 import june.songmelier.dto.CommentDto;
+import june.songmelier.dto.MemberDto;
 import june.songmelier.security.PrincipalDetails;
 import june.songmelier.service.CommentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -63,4 +62,11 @@ public class CommentController {
         commentService.deleteCommentFavor(commentId, principal.getMemberId());
     }
 
+    /**
+     * 곡의 코멘트 보기
+     */
+    @GetMapping("/api/song/{songId}/comment")
+    public List<CommentDto.CommentRes> getSongComments(@PathVariable("songId") Long songId, @AuthenticationPrincipal PrincipalDetails principal){
+        return commentService.getSongComments(songId,principal.getMemberId());
+    }
 }
