@@ -1,7 +1,9 @@
 package june.songmelier.service;
 
 import june.songmelier.dto.CommentDto;
+import june.songmelier.dto.EvaluationDto;
 import june.songmelier.dto.MemberDto;
+import june.songmelier.dto.SongDto;
 import june.songmelier.entity.*;
 import june.songmelier.repository.CommentRepository;
 import june.songmelier.repository.CommentStatusRepository;
@@ -9,6 +11,8 @@ import june.songmelier.repository.FavorRepository;
 import june.songmelier.repository.SongRepository;
 import june.songmelier.security.PrincipalDetails;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -96,19 +100,31 @@ public class CommentService {
     }
 
 
-    //모든 코맨트 가져오기
+    //모든 코맨트 가져오기 ,page전
+//    @Transactional
+//    public List<CommentDto.CommentRes> getSongComments(Long songId, Long memberId) {
+//
+//        List<Comment> comments = commentRepository.findBySongIdAndMember(songId);
+//        List<CommentDto.CommentRes> result = new ArrayList<CommentDto.CommentRes>();
+//
+//        for(Comment comment : comments){
+//            Optional<CommentStatus> commentStatus = commentStatusRepository.findByCommentId(comment.getId());
+//            MemberDto.MemberRes member = new MemberDto.MemberRes(comment.getMember().getId(),comment.getMember().getUsername(),comment.getMember().getImageUrl());
+//            result.add(new CommentDto.CommentRes(comment.getId(), comment.getText(),comment.getLikeCount(),comment.getCreatedAt(),commentStatus.isPresent(),member));
+//        }
+//        return result;
+//    }
+
     @Transactional
-    public List<CommentDto.CommentRes> getSongComments(Long songId, Long memberId) {
+    public Slice<CommentDto.CommentRes> getSongComments(Long songId, Long memberId,Pageable pageable) {
 
-        List<Comment> comments = commentRepository.findBySongIdAndMember(songId);
-        List<CommentDto.CommentRes> result = new ArrayList<CommentDto.CommentRes>();
+        Slice<Comment> comments = commentRepository.findBySongIdAndMember(songId,pageable);
+        Slice<CommentDto.CommentRes> result = comments.map(c -> new CommentDto.CommentRes(c.getId(),c.getText(),c.getLikeCount(),c.getCreatedAt(),
+                commentStatusRepository.findByCommentId(c.getId()).isPresent(),
+                new MemberDto.MemberRes(c.getMember().getId(),c.getMember().getUsername(),c.getMember().getImageUrl())));
 
-        for(Comment comment : comments){
-            Optional<CommentStatus> commentStatus = commentStatusRepository.findByCommentId(comment.getId());
-            MemberDto.MemberRes member = new MemberDto.MemberRes(comment.getMember().getId(),comment.getMember().getUsername(),comment.getMember().getImageUrl());
-            result.add(new CommentDto.CommentRes(comment.getId(), comment.getText(),comment.getLikeCount(),comment.getCreatedAt(),commentStatus.isPresent(),member));
-        }
         return result;
     }
+
 
 }
