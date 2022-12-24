@@ -1,14 +1,22 @@
 package june.songmelier.service;
 
+import june.songmelier.dto.CommentDto;
 import june.songmelier.dto.EvaluationDto;
-import june.songmelier.entity.Evaluation;
-import june.songmelier.entity.Member;
-import june.songmelier.entity.Song;
+import june.songmelier.dto.MemberDto;
+import june.songmelier.dto.SongDto;
+import june.songmelier.entity.*;
 import june.songmelier.repository.EvaluationRepository;
 import june.songmelier.repository.SongRepository;
+import june.songmelier.security.PrincipalDetails;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.GetMapping;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -53,4 +61,19 @@ public class EvaluationService {
         //delete evaluation and evaluation comment
         evaluationRepository.delete(evaluation);
     }
-}
+    @Transactional
+    public  List<EvaluationDto.MyEvaluationsRes> getMyEvaluations(Long memberId) {
+        List<Evaluation> evaluations = evaluationRepository.findByMemberId(memberId);
+        List<EvaluationDto.MyEvaluationsRes> result = new ArrayList<EvaluationDto.MyEvaluationsRes>();
+
+
+        for(Evaluation evaluation : evaluations){
+            SongDto.SongEvaluationRes evaluationSong = new SongDto.SongEvaluationRes(evaluation.getSong().getId(),evaluation.getSong().getTitle(),evaluation.getSong().getSinger(),evaluation.getSong().getImageUrl());
+            EvaluationDto.EvaluationRes evaluationDetail = new EvaluationDto.EvaluationRes(evaluation.getId(),evaluation.getHighDifficult(),evaluation.getHighDifficult(),evaluation.getRapDifficult(),evaluation.getMood());
+            EvaluationDto.MyEvaluationsRes myEvaluation = new EvaluationDto.MyEvaluationsRes(evaluationDetail, evaluationSong);
+            result.add(myEvaluation);
+        }
+        return result;
+        }
+    }
+
