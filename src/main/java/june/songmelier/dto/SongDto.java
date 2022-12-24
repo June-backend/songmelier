@@ -60,4 +60,17 @@ public class SongDto {
         private String singer;
         private String imageUrl;
     }
+
+    @Getter
+    @AllArgsConstructor
+    @NoArgsConstructor
+    static public class SongMellonChartRes{
+        private Long songId;
+        private String title;
+        private String singer;
+        private String imageUrl;
+        private String totalDifficult;
+        private String mood;
+        private boolean isMySingList;
+    }
 }
