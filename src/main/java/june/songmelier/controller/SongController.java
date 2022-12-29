@@ -1,11 +1,14 @@
 package june.songmelier.controller;
 
 
-import june.songmelier.dto.CommentDto;
 import june.songmelier.dto.SongDto;
 import june.songmelier.security.PrincipalDetails;
 import june.songmelier.service.SongService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
@@ -35,6 +38,16 @@ public class SongController {
     }
 
     /**
+     * 나의 선호 노래 확인
+     */
+    @GetMapping("/api/member/favor")
+    public Slice<SongDto.FavorRes> getFavorList(
+            @AuthenticationPrincipal PrincipalDetails principal,
+            @PageableDefault(sort = "id", direction = Sort.Direction.DESC) Pageable pageable) {
+        return songService.getFavor(principal.getMemberId(), pageable);
+    }
+
+    /**
      * 싱리스트 추가
      */
     @PostMapping("/api/song/{songId}/singlist")
@@ -51,12 +64,22 @@ public class SongController {
         songService.deleteBookmark(songId, principal.getMemberId());
     }
 
+    /**
+     * 나의 싱리스트 확인
+     */
+    @GetMapping("/api/member/singlist")
+    public Slice<SongDto.BookmarkRes> getSingList(
+            @AuthenticationPrincipal PrincipalDetails principal,
+            @PageableDefault(sort = "id", direction = Sort.Direction.DESC) Pageable pageable) {
+        return songService.getBookmark(principal.getMemberId(), pageable );
+    }
 
     /**
      * 노래 상세 정보 갖고오기
      */
     @GetMapping("/api/song/{songId}/songdetail")
     public SongDto.SongRes getSongDetail(@PathVariable("songId") Long songId, @AuthenticationPrincipal PrincipalDetails principal) {
+
         return songService.getSongDetail(songId, principal.getMemberId());
     }
 

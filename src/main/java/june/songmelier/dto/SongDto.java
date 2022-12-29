@@ -8,8 +8,6 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.awt.print.Book;
-
 public class SongDto {
 
     @Getter
@@ -52,6 +50,53 @@ public class SongDto {
     }
 
 
+    @Getter
+    @NoArgsConstructor
+    public static class BookmarkRes {
+        private Long bookmarkId;
+        private SimpleSong song;
+
+
+        public BookmarkRes(Bookmark bookmark) {
+            this.bookmarkId = bookmark.getId();
+            this.song = new SimpleSong(bookmark.getSong());
+        }
+    }
+
+
+    @Getter
+    public static class FavorRes {
+        private Long favor_id;
+        private SimpleSong song;
+
+        public FavorRes(Favor favor) {
+            this.favor_id = favor.getId();
+            this.song = new SimpleSong(favor.getSong());
+        }
+    }
+
+    @Getter
+    private static class SimpleSong {
+        private Long songId;
+        private String title;
+        private String singer;
+        private String imageUrl;
+        private String rapDifficult;
+        private String highDifficult;
+        private String lowDifficult;
+        private String mood;
+        
+        public SimpleSong(Song song) {
+        this.songId = song.getId();
+        this.title = song.getTitle();
+        this.singer = song.getSinger();
+        this.imageUrl = song.getImageUrl();
+        this.rapDifficult = song.getRapDifficult();
+        this.highDifficult = song.getHighDifficult();
+        this.lowDifficult = song.getLowDifficult();
+        this.mood = song.getMood();
+    }
+
     //평가탭의 song detail
     @Getter
     @AllArgsConstructor
@@ -82,6 +127,7 @@ public class SongDto {
     @AllArgsConstructor
     @NoArgsConstructor
     static public class MyCommentSongRes{
+
         private Long songId;
         private String title;
         private String singer;
