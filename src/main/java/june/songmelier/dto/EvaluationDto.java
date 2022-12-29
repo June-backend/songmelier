@@ -23,6 +23,27 @@ public class EvaluationDto {
         private Long evaluationId;
     }
 
+    @NoArgsConstructor
+    @AllArgsConstructor
+    @Getter
+    public static class EvaluationRes{
+        private Long evaluationId;
+        private Integer highDifficult;
+        private Integer lowDifficult;
+        private Integer rapDifficult;
+        private Integer mood;
+    }
+    @NoArgsConstructor
+    @AllArgsConstructor
+    @Getter
+    public static class MyEvaluationsRes {
+
+        private EvaluationDto.EvaluationRes evaluation;
+        private SongDto.SongEvaluationRes song;
+    }
+
+
+
 
 
 }
