@@ -67,7 +67,7 @@ public class SongDto {
     @Getter
     @AllArgsConstructor
     @NoArgsConstructor
-    static public class SongMellonChartRes{
+    static public class SongChartRes{
         private Long songId;
         private String title;
         private String singer;

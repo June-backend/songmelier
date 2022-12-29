@@ -4,6 +4,7 @@ import june.songmelier.entity.Comment;
 import june.songmelier.entity.Song;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
@@ -17,5 +18,8 @@ public interface ChartRepository  extends JpaRepository<Song, Long> {
    @Query(value = "select * from song order by random() limit 10",nativeQuery = true)
    List<Song> get10RandomSongs();
 
+
+   @Query(value = "SELECT * FROM SONG ORDER BY (BOOKMARK_COUNT +FAVOR_COUNT) DESC", nativeQuery = true)
+   Slice<Object[]> findSonginSongmelierChart(Pageable pageable);
 
 }
