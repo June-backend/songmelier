@@ -42,14 +42,15 @@ public class MellonChartService {
 //    }
 
     @Transactional
-    public Slice<SongDto.SongMellonChartRes> getMellonChartSongs(Long memberId, Pageable pageable) {
+    public Slice<SongDto.SongChartRes> getMellonChartSongs(Long memberId, Pageable pageable) {
         Slice<Object[]> songs = mellonChartRepository.findall(pageable);
         // SONG_ID ,TITLE, SINGER , IMAGE_URL ,HIGH_DIFFICULT ,LOW_DIFFICULT ,RAP_DIFFICULT ,MOOD  ,MELLON_ID
-       Slice<SongDto.SongMellonChartRes> result = songs.map(s -> new SongDto.SongMellonChartRes(
+       Slice<SongDto.SongChartRes> result = songs.map(s -> new SongDto.SongChartRes(
                Long.valueOf((String.valueOf(s[0]))),String.valueOf(s[1]),
                String.valueOf(s[2]),String.valueOf(s[3]),String.valueOf(s[4]),String.valueOf(s[5]),
                bookmarkRepository.findBySongIdAndMemberId(Long.valueOf((String.valueOf(s[0]))),memberId).isPresent()
        ));
+
        return result;
 
     }
