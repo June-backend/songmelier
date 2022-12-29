@@ -126,5 +126,19 @@ public class CommentService {
         return result;
     }
 
+    @Transactional
+    public Slice<CommentDto.MyCommentRes> getMyComment(Long memberId,Pageable pageable) {
+
+        Slice<Comment> comments = commentRepository.findBySongIdAndMember(memberId,pageable);
+
+        Slice<CommentDto.MyCommentRes> result = comments.map( c -> new CommentDto.MyCommentRes(
+                new SongDto.MyCommentSongRes(c.getSong().getId(), c.getSong().getTitle(), c.getSong().getSinger(), c.getSong().getImageUrl(), c.getSong().getRapDifficult(),c.getSong().getHighDifficult(),c.getSong().getLowDifficult(),c.getSong().getMood()),
+                new CommentDto.MyCommentDto(c.getId(),c.getText())
+        ));
+        return result;
+    }
+
+
+
 
 }

@@ -51,6 +51,8 @@ public class SongDto {
         }
     }
 
+
+    //평가탭의 song detail
     @Getter
     @AllArgsConstructor
     @NoArgsConstructor
@@ -61,6 +63,7 @@ public class SongDto {
         private String imageUrl;
     }
 
+    //멜론차트의 song
     @Getter
     @AllArgsConstructor
     @NoArgsConstructor
@@ -72,5 +75,20 @@ public class SongDto {
         private String totalDifficult;
         private String mood;
         private boolean isMySingList;
+    }
+
+    //내가 작성한 코멘트 확인 song
+    @Getter
+    @AllArgsConstructor
+    @NoArgsConstructor
+    static public class MyCommentSongRes{
+        private Long songId;
+        private String title;
+        private String singer;
+        private String imageUrl;
+        private String rapDifficult;
+        private String highDifficult;
+        private String lowDifficult;
+        private String mood;
     }
 }

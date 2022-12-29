@@ -84,5 +84,10 @@ public class CommentController {
         return commentService.getSongComments(songId,principal.getMemberId(),pageable);
     }
 
+    @GetMapping("/api/song/member/comment")
+    public Slice<CommentDto.MyCommentRes> getSongComments(@AuthenticationPrincipal PrincipalDetails principal,
+                                                        @PageableDefault(sort = "id", direction = Sort.Direction.DESC) Pageable pageable ){
+        return commentService.getMyComment(principal.getMemberId(),pageable);
+    }
 
 }
