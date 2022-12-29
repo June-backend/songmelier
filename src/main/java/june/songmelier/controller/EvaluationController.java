@@ -4,11 +4,14 @@ import june.songmelier.dto.EvaluationDto;
 import june.songmelier.security.PrincipalDetails;
 import june.songmelier.service.EvaluationService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -35,6 +38,23 @@ public class EvaluationController {
                                @PathVariable("evaluationId") Long evaluationId,
                                @AuthenticationPrincipal PrincipalDetails principalDetails) {
         evaluationService.deleteSongEvaluation(songId, principalDetails.getMemberId(), evaluationId);
+    }
+
+    /**
+     * 내가 평가한 노래들 보기
+     */
+    //slice 전
+//    @GetMapping("/api/member/evaluation")
+//    public List<EvaluationDto.MyEvaluationsRes> GetMyEvaluations(@AuthenticationPrincipal PrincipalDetails principalDetails) {
+//        return evaluationService.getMyEvaluations(principalDetails.getMemberId());
+//    }
+
+    //slice
+    @GetMapping("/api/member/evaluation")
+    public Slice<EvaluationDto.MyEvaluationsRes> GetMyEvaluations(
+            @AuthenticationPrincipal PrincipalDetails principalDetails,
+            @PageableDefault(sort = "id", direction = Sort.Direction.DESC) Pageable pageable) {
+        return evaluationService.getMyEvaluations1(principalDetails.getMemberId(),pageable);
     }
 
 }

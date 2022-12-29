@@ -26,6 +26,7 @@ public class SongDto {
         private Long commentCount;
         private String rapDifficult;
         private String highDifficult;
+        private String lowDifficult;
         private String mood;
         private boolean isMySinglist;
         private boolean isFavor;
@@ -40,6 +41,7 @@ public class SongDto {
             this.favorCount = song.getFavorCount();
             this.scrapCount = song.getBookmarkCount();
             this.commentCount = song.getCommentCount();
+            this.lowDifficult = song.getLowDifficult();
             this.rapDifficult = song.getRapDifficult();
             this.highDifficult = song.getHighDifficult();
             this.mood = song.getMood();
@@ -47,5 +49,46 @@ public class SongDto {
             this.isFavor = isFavor;
 
         }
+    }
+
+
+    //평가탭의 song detail
+    @Getter
+    @AllArgsConstructor
+    @NoArgsConstructor
+    static public class SongEvaluationRes{
+        private Long songId;
+        private String title;
+        private String singer;
+        private String imageUrl;
+    }
+
+    //멜론차트의 song
+    @Getter
+    @AllArgsConstructor
+    @NoArgsConstructor
+    static public class SongChartRes{
+        private Long songId;
+        private String title;
+        private String singer;
+        private String imageUrl;
+        private String totalDifficult;
+        private String mood;
+        private boolean isMySingList;
+    }
+
+    //내가 작성한 코멘트 확인 song
+    @Getter
+    @AllArgsConstructor
+    @NoArgsConstructor
+    static public class MyCommentSongRes{
+        private Long songId;
+        private String title;
+        private String singer;
+        private String imageUrl;
+        private String rapDifficult;
+        private String highDifficult;
+        private String lowDifficult;
+        private String mood;
     }
 }
