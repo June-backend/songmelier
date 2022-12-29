@@ -87,14 +87,15 @@ public class SongDto {
         private String mood;
         
         public SimpleSong(Song song) {
-        this.songId = song.getId();
-        this.title = song.getTitle();
-        this.singer = song.getSinger();
-        this.imageUrl = song.getImageUrl();
-        this.rapDifficult = song.getRapDifficult();
-        this.highDifficult = song.getHighDifficult();
-        this.lowDifficult = song.getLowDifficult();
-        this.mood = song.getMood();
+            this.songId = song.getId();
+            this.title = song.getTitle();
+            this.singer = song.getSinger();
+            this.imageUrl = song.getImageUrl();
+            this.rapDifficult = song.getRapDifficult();
+            this.highDifficult = song.getHighDifficult();
+            this.lowDifficult = song.getLowDifficult();
+            this.mood = song.getMood();
+        }
     }
 
     //평가탭의 song detail
