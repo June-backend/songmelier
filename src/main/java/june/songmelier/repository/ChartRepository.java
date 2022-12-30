@@ -19,7 +19,7 @@ public interface ChartRepository  extends JpaRepository<Song, Long> {
    List<Song> get10RandomSongs();
 
 
-   @Query(value = "SELECT * FROM SONG ORDER BY (BOOKMARK_COUNT +FAVOR_COUNT) DESC", nativeQuery = true)
+   @Query(value = "SELECT SONG_ID ,TITLE, SINGER , IMAGE_URL ,HIGH_DIFFICULT ,LOW_DIFFICULT ,RAP_DIFFICULT ,MOOD  ,MELLON_ID FROM SONG ORDER BY (BOOKMARK_COUNT +FAVOR_COUNT) DESC , CREATED_AT asc", nativeQuery = true)
    Slice<Object[]> findSonginSongmelierChart(Pageable pageable);
 
 }

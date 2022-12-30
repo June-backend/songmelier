@@ -23,7 +23,7 @@ public class MellonChartController {
 
     private final MellonChartService mellonChartService;
 
-    @GetMapping("/api/song/melon/songs")
+    @GetMapping("/api/chart/mellon")
     public Slice<SongDto.SongChartRes> getSongDetail(@AuthenticationPrincipal PrincipalDetails principal,
                                                           Pageable pageable ) {
         return mellonChartService.getMellonChartSongs(principal.getMemberId(),pageable);
