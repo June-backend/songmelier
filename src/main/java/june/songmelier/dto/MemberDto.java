@@ -58,4 +58,11 @@ public class MemberDto {
         private Long memberId;
         private String username;
     }
+
+    @Getter
+    @AllArgsConstructor
+    public static class ClientSignUpRes {
+        private Boolean isFirst;
+        private String accessToken;
+    }
 }
