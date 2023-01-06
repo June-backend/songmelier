@@ -8,6 +8,9 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class SongDto {
 
     @Getter
@@ -121,6 +124,21 @@ public class SongDto {
         private String totalDifficult;
         private String mood;
         private boolean isMySingList;
+
+        public SongChartRes(Song song, boolean isMySingList) {
+            this.songId = song.getId();
+            this.title = song.getTitle();
+            this.singer = song.getSinger();
+            this.imageUrl = song.getImageUrl();
+            this.mood = song.getMood();
+            this.isMySingList = isMySingList;
+            this.totalDifficult = song.getHighDifficult();
+        }
+    }
+
+    @Getter
+    static public class SongSearchRes{
+        private List<SongChartRes> song = new ArrayList<>();
     }
 
     //내가 작성한 코멘트 확인 song
@@ -138,4 +156,23 @@ public class SongDto {
         private String lowDifficult;
         private String mood;
     }
+
+
+    @Getter
+    static public class SearchApiRes {
+        private Long itemId;
+        private String title;
+        private String singer;
+        private String imageUrl;
+        private String publishDate;
+
+        public SearchApiRes(Long itemId, String title, String singer, String imageUrl, String publishDate) {
+            this.itemId = itemId;
+            this.title = title;
+            this.singer = singer;
+            this.imageUrl = imageUrl;
+            this.publishDate = publishDate;
+        }
+    }
+
 }

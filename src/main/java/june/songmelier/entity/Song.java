@@ -32,7 +32,7 @@ public class Song extends TimeStamped {
     private String rapDifficult;
     private String mood;
 
-    private Long mellonId;
+    private Long itemId;
 
     @OneToMany(mappedBy = "song")
     private List<Comment> commentList = new ArrayList<>();
@@ -40,12 +40,12 @@ public class Song extends TimeStamped {
     //연관 관계 설정 필요
     //--------------------------------------------------- 생성자 ----------------------------------------------------------//
 
-    private Song(String title, String singer, String imageUrl, String publishedDate, Long mellonId) {
+    private Song(String title, String singer, String imageUrl, String publishedDate, Long itemId) {
         this.title = title;
         this.singer = singer;
         this.imageUrl = imageUrl;
         this.publishedDate = publishedDate;
-        this.mellonId = mellonId;
+        this.itemId = itemId;
         this.favorCount = 0L;
         this.bookmarkCount = 0L;
         this.commentCount = 0L;
@@ -56,8 +56,8 @@ public class Song extends TimeStamped {
     }
     //--------------------------------------------------- 생성 편의자 ----------------------------------------------------------//
 
-    public static Song createSong(String title, String singer, String imageUrl, String publishedDate, Long mellonId) {
-        return new Song(title, singer, imageUrl, publishedDate, mellonId);
+    public static Song createSong(String title, String singer, String imageUrl, String publishedDate, Long itemId) {
+        return new Song(title, singer, imageUrl, publishedDate, itemId);
     }
 
     //--------------------------------------------------- 편의 메서드 ----------------------------------------------------------//
