@@ -12,10 +12,11 @@ import java.util.Objects;
 import java.util.Optional;
 
 public interface MellonChartRepository extends JpaRepository<MellonChart, Long> {
-    @Query(value = "select SONG_ID ,TITLE, SINGER , IMAGE_URL ,HIGH_DIFFICULT ,LOW_DIFFICULT ,RAP_DIFFICULT ,MOOD  ,MELLON_ID  from SONG left join MELLON_CHART on song.MELLON_ID  = MELLON_CHART.MELLON_CHART_ID",nativeQuery = true)
+    @Query(value = "select SONG_ID ,TITLE, SINGER , IMAGE_URL ,HIGH_DIFFICULT ,LOW_DIFFICULT ,RAP_DIFFICULT ,MOOD  ,ITEM_ID  " +
+            "from song left join mellon_chart on song.ITEM_ID  = mellon_chart.MELLON_CHART_ID",nativeQuery = true)
     Slice<Object[]> findall(Pageable pageable);
 
-//    select * from SONG right join MELLON_CHART on song.MELLON_ID  = MELLON_CHART.MELLON_CHART_ID
+//    select * from SONG right join MELLON_CHART on song.ITEM_ID  = MELLON_CHART.MELLON_CHART_ID
 //    @Query("select m from MellonChart m join Song s")
 //    <Song> findal2();//현웅님께 여쭤보기
 

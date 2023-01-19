@@ -25,7 +25,7 @@ public class MellonWriter implements ItemWriter<SongDao> {
                 .collect(Collectors.toList());
 
         List<Song> readSongs = list.stream()
-                .filter((dao) -> songRepository.findByMellonId(dao.getSongId()).isEmpty())
+                .filter((dao) -> songRepository.findByItemId(dao.getSongId()).isEmpty())
                 .map((dao) ->
                         Song.createSong(dao.getTitle(), dao.getSinger(), dao.getImageUrl(), dao.getPublishedDate(), dao.getSongId()))
                 .collect(Collectors.toList());

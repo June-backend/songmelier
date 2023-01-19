@@ -29,7 +29,7 @@ public class MellonChartService {
 //    @Transactional
 //    public List<SongDto.SongMellonChartRes> getMellonChartSongs(Long memberId) {
 //        List<Object[]> songs = mellonChartRepository.findall();
-//        // SONG_ID ,TITLE, SINGER , IMAGE_URL ,HIGH_DIFFICULT ,LOW_DIFFICULT ,RAP_DIFFICULT ,MOOD  ,MELLON_ID
+//        // SONG_ID ,TITLE, SINGER , IMAGE_URL ,HIGH_DIFFICULT ,LOW_DIFFICULT ,RAP_DIFFICULT ,MOOD  ,ITEM_ID
 //        List<SongDto.SongMellonChartRes> result = new ArrayList<SongDto.SongMellonChartRes>();
 //        for (Object[] o : songs){
 //            Optional<Bookmark> bookmark = bookmarkRepository.findBySongIdAndMemberId(Long.valueOf((String.valueOf(o[0]))),memberId);
@@ -44,10 +44,11 @@ public class MellonChartService {
     @Transactional
     public Slice<SongDto.SongChartRes> getMellonChartSongs(Long memberId, Pageable pageable) {
         Slice<Object[]> songs = mellonChartRepository.findall(pageable);
-        // SONG_ID ,TITLE, SINGER , IMAGE_URL ,HIGH_DIFFICULT ,LOW_DIFFICULT ,RAP_DIFFICULT ,MOOD  ,MELLON_ID
+        // SONG_ID ,TITLE, SINGER , IMAGE_URL ,HIGH_DIFFICULT ,LOW_DIFFICULT ,RAP_DIFFICULT ,MOOD  ,ITEM_ID
        Slice<SongDto.SongChartRes> result = songs.map(s -> new SongDto.SongChartRes(
                Long.valueOf((String.valueOf(s[0]))),String.valueOf(s[1]),
                String.valueOf(s[2]),String.valueOf(s[3]),String.valueOf(s[4]),String.valueOf(s[5]),
+               String.valueOf(s[6]), String.valueOf(s[7]),
                bookmarkRepository.findBySongIdAndMemberId(Long.valueOf((String.valueOf(s[0]))),memberId).isPresent()
        ));
 

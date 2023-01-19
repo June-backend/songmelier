@@ -12,6 +12,7 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
+
 @RestController
 @RequiredArgsConstructor
 public class SongController {
@@ -71,7 +72,7 @@ public class SongController {
     public Slice<SongDto.BookmarkRes> getSingList(
             @AuthenticationPrincipal PrincipalDetails principal,
             @PageableDefault(sort = "id", direction = Sort.Direction.DESC) Pageable pageable) {
-        return songService.getBookmark(principal.getMemberId(), pageable );
+        return songService.getBookmark(principal.getMemberId(), pageable);
     }
 
     /**
@@ -83,5 +84,13 @@ public class SongController {
         return songService.getSongDetail(songId, principal.getMemberId());
     }
 
+    @GetMapping("/api/song/search/title")
+    public SongDto.SongSearchRes searchSongByTitle(@RequestParam("q") String title, @AuthenticationPrincipal PrincipalDetails principal) {
+        return songService.searchSongByTitle(title, principal.getMemberId());
+    }
 
+    @GetMapping("/api/song/search/singer")
+    public SongDto.SongSearchRes searchSongBySinger(@RequestParam("q") String singer, @AuthenticationPrincipal PrincipalDetails principal) {
+        return songService.searchSongBySinger(singer, principal.getMemberId());
+    }
 }

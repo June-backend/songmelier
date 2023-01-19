@@ -41,6 +41,7 @@ public class ChartService {
         Slice<SongDto.SongChartRes> result = songs.map(s -> new SongDto.SongChartRes(
                 Long.valueOf((String.valueOf(s[0]))),String.valueOf(s[1]),
                 String.valueOf(s[2]),String.valueOf(s[3]),String.valueOf(s[4]),String.valueOf(s[5]),
+                String.valueOf(s[6]), String.valueOf(s[7]),
                 bookmarkRepository.findBySongIdAndMemberId(Long.valueOf((String.valueOf(s[0]))),memberId).isPresent()
         ));
         return result;

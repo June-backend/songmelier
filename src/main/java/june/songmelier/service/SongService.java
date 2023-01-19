@@ -3,12 +3,14 @@ package june.songmelier.service;
 import june.songmelier.dto.SongDto;
 import june.songmelier.entity.*;
 import june.songmelier.repository.*;
+import june.songmelier.utils.SongApi;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -19,6 +21,7 @@ public class SongService {
     private final SongRepository songRepository;
     private final FavorRepository favorRepository;
     private final BookmarkRepository bookmarkRepository;
+    private final SongApi songApi;
 
     @Transactional
     public void createFavor(Long songId, Long memberId) {
@@ -94,5 +97,46 @@ public class SongService {
         Slice<Favor> favors = favorRepository.findByMemberIdWithSong(memberId, pageable);
 
         return favors.map(favor -> new SongDto.FavorRes(favor));
+    }
+
+    @Transactional
+    public SongDto.SongSearchRes searchSongByTitle(String title, Long memberId) {
+
+        List<SongDto.SearchApiRes> searchApiRes = songApi.searchByTitle(title).orElse(List.of());
+
+        SongDto.SongSearchRes songSearchRes = new SongDto.SongSearchRes();
+        for (SongDto.SearchApiRes res : searchApiRes) {
+            Optional<Song> song = songRepository.findByItemId(res.getItemId());
+            if (song.isEmpty()) {
+                Song newSong = Song.createSong(res.getTitle(), res.getSinger(), res.getImageUrl(), res.getPublishDate(), res.getItemId());
+                songRepository.save(newSong);
+                songSearchRes.getSong().add((new SongDto.SongSearch(newSong, false)));
+            } else {
+                Song existSong = song.get();
+                Optional<Bookmark> bookmark = bookmarkRepository.findBySongIdAndMemberId(existSong.getId(), memberId);
+                songSearchRes.getSong().add(new SongDto.SongSearch(existSong, bookmark.isPresent()));
+            } 
+        }
+        return songSearchRes;
+    }
+
+    @Transactional
+    public SongDto.SongSearchRes searchSongBySinger(String singer, Long memberId) {
+        List<SongDto.SearchApiRes> searchApiRes = songApi.searchBySinger(singer).orElse(List.of());
+
+        SongDto.SongSearchRes songSearchRes = new SongDto.SongSearchRes();
+        for (SongDto.SearchApiRes res : searchApiRes) {
+            Optional<Song> song = songRepository.findByItemId(res.getItemId());
+            if (song.isEmpty()) {
+                Song newSong = Song.createSong(res.getTitle(), res.getSinger(), res.getImageUrl(), res.getPublishDate(), res.getItemId());
+                songRepository.save(newSong);
+                songSearchRes.getSong().add((new SongDto.SongSearch(newSong, false)));
+            } else {
+                Song existSong = song.get();
+                Optional<Bookmark> bookmark = bookmarkRepository.findBySongIdAndMemberId(existSong.getId(), memberId);
+                songSearchRes.getSong().add(new SongDto.SongSearch(existSong, bookmark.isPresent()));
+            }
+        }
+        return songSearchRes;
     }
 }

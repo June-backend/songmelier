@@ -3,6 +3,7 @@ package june.songmelier.service;
 import june.songmelier.dto.MemberDto;
 import june.songmelier.entity.Member;
 import june.songmelier.repository.MemberRepository;
+import june.songmelier.utils.JwtTokenUtils;
 import june.songmelier.utils.S3UploadUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -18,6 +19,7 @@ public class MemberService {
 
     private final MemberRepository memberRepository;
     private final S3UploadUtils s3UploadUtils;
+    private final JwtTokenUtils jwtTokenUtils;
 
 
     public MemberDto.profileRes getMyProfile(Long memberId) {
@@ -46,5 +48,18 @@ public class MemberService {
 
         //해당 ID에 해당하는 멤버가 없다면 EmptyResultDataAccessException 이 일어난다.
         memberRepository.deleteById(memberId);
+    }
+
+    @Transactional
+    public MemberDto.ClientSignUpRes loginByClient(String socialId) {
+        Optional<Member> member = memberRepository.findByEmail(socialId);
+        Long memberId = member.map(Member::getId).orElse(null);
+        if(member.isEmpty()){
+            Member newMember = Member.createMember(socialId, null, null, null, null);
+            memberRepository.save(newMember);
+            memberId = newMember.getId();
+        }
+        String accessToken = jwtTokenUtils.createAccessToken(memberId, null);
+        return new MemberDto.ClientSignUpRes(member.isEmpty(), accessToken);
     }
 }
