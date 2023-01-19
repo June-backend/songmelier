@@ -121,11 +121,26 @@ public class SongDto {
         private String title;
         private String singer;
         private String imageUrl;
+        private String highDifficult;
+        private String lowDifficult;
+        private String rapDifficult;
+        private String mood;
+        private boolean isMySingList;
+    }
+
+    @Getter
+    @AllArgsConstructor
+    @NoArgsConstructor
+    static public class SongSearch{
+        private Long songId;
+        private String title;
+        private String singer;
+        private String imageUrl;
         private String totalDifficult;
         private String mood;
         private boolean isMySingList;
 
-        public SongChartRes(Song song, boolean isMySingList) {
+        public SongSearch(Song song, boolean isMySingList) {
             this.songId = song.getId();
             this.title = song.getTitle();
             this.singer = song.getSinger();
@@ -138,7 +153,7 @@ public class SongDto {
 
     @Getter
     static public class SongSearchRes{
-        private List<SongChartRes> song = new ArrayList<>();
+        private List<SongSearch> song = new ArrayList<>();
     }
 
     //내가 작성한 코멘트 확인 song

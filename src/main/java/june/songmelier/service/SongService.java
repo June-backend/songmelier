@@ -110,11 +110,11 @@ public class SongService {
             if (song.isEmpty()) {
                 Song newSong = Song.createSong(res.getTitle(), res.getSinger(), res.getImageUrl(), res.getPublishDate(), res.getItemId());
                 songRepository.save(newSong);
-                songSearchRes.getSong().add((new SongDto.SongChartRes(newSong, false)));
+                songSearchRes.getSong().add((new SongDto.SongSearch(newSong, false)));
             } else {
                 Song existSong = song.get();
                 Optional<Bookmark> bookmark = bookmarkRepository.findBySongIdAndMemberId(existSong.getId(), memberId);
-                songSearchRes.getSong().add(new SongDto.SongChartRes(existSong, bookmark.isPresent()));
+                songSearchRes.getSong().add(new SongDto.SongSearch(existSong, bookmark.isPresent()));
             } 
         }
         return songSearchRes;
@@ -130,11 +130,11 @@ public class SongService {
             if (song.isEmpty()) {
                 Song newSong = Song.createSong(res.getTitle(), res.getSinger(), res.getImageUrl(), res.getPublishDate(), res.getItemId());
                 songRepository.save(newSong);
-                songSearchRes.getSong().add((new SongDto.SongChartRes(newSong, false)));
+                songSearchRes.getSong().add((new SongDto.SongSearch(newSong, false)));
             } else {
                 Song existSong = song.get();
                 Optional<Bookmark> bookmark = bookmarkRepository.findBySongIdAndMemberId(existSong.getId(), memberId);
-                songSearchRes.getSong().add(new SongDto.SongChartRes(existSong, bookmark.isPresent()));
+                songSearchRes.getSong().add(new SongDto.SongSearch(existSong, bookmark.isPresent()));
             }
         }
         return songSearchRes;

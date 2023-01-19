@@ -23,10 +23,11 @@ public class TjChartService {
     @Transactional
     public Slice<SongDto.SongChartRes> getTjChartSongs(Long memberId, Pageable pageable) {
         Slice<Object[]> songs = tjChartRepository.findall(pageable);
-        // SONG_ID ,TITLE, SINGER , IMAGE_URL ,HIGH_DIFFICULT ,LOW_DIFFICULT ,RAP_DIFFICULT ,MOOD  ,MELLON_ID
+        // SONG_ID ,TITLE, SINGER , IMAGE_URL ,HIGH_DIFFICULT ,LOW_DIFFICULT ,RAP_DIFFICULT ,MOOD  ,ITEM_ID
         Slice<SongDto.SongChartRes> result = songs.map(s -> new SongDto.SongChartRes(
                 Long.valueOf((String.valueOf(s[0]))),String.valueOf(s[1]),
                 String.valueOf(s[2]),String.valueOf(s[3]),String.valueOf(s[4]),String.valueOf(s[5]),
+                String.valueOf(s[6]),String.valueOf(s[7]),
                 bookmarkRepository.findBySongIdAndMemberId(Long.valueOf((String.valueOf(s[0]))),memberId).isPresent()
         ));
 
